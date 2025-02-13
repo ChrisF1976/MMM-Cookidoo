@@ -1,0 +1,15 @@
+{
+  "name": "MMM-Cookidoo",
+  "version": "1.0.0",
+  "description": "A MagicMirror module to fetch and display random recipes from rezeptwelt.de",
+  "main": "MMM-Cookidoo.js",
+  "scripts": {
+    "start": "node MMM-Cookidoo.js"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "author": "ChrisF1976",
+  "license": "MIT"
+}
