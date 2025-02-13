@@ -1,4 +1,4 @@
-# MMM-Cookidoo (R)
+# MMM-Cookidoo
 
 MMM-Cookidoo is a MagicMirror² module that fetches and displays random recipes from [rezeptwelt.de](https://www.rezeptwelt.de/rezepte/rezeptedestages/liste). It rotates through the recipes, showing details like the title, image, and rating. The module also provides clickable links for viewing the full recipe and for adding the recipe to Cookidoo. Additionally, it supports notifications to trigger virtual clicks on these links.
 
