@@ -61,6 +61,7 @@ this.sendNotification("Cookidoo_view");
 // or
 this.sendNotification("Cookidoo_add");
 ```
+This is the first release. I know this is not that useful but better than nothing. I'll work on it to get it really into the Thermo-machine :-)
 
 ## Files
 
