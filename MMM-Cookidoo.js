@@ -3,13 +3,13 @@ Module.register("MMM-Cookidoo", {
   // Default module configuration.
   defaults: {
     updateInterval: 60 * 60 * 1000,  // Update recipes every 1 hour.
-    rotateInterval: 10 * 1000,         // Rotate displayed recipe every 10 seconds.
+    rotateInterval: 5 * 60 * 1000,   // Rotate displayed recipe every 5 Minutes.
     apiURL: "https://www.rezeptwelt.de/rezepte/rezeptedestages/liste",
-    imageWidth: "100%",              // Recipe image width (e.g., "400px" or "100%")
+    imageWidth: "250px",              // Recipe image width (e.g., "250px" or "100%")
     showRecipeLink: true,            // true to show "View Recipe" link, false to hide
     showCookidoo: true,              // true to show the Cookidoo container, false to hide
     showRating: true,                // true to show the rating with stars, false to hide
-    moduleWidth: "600px",            // Module width (applied to outer wrapper)
+    moduleWidth: "400px",            // Module width (applied to outer wrapper)
   },
 
   // Load Iconify for the star icons.
