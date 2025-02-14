@@ -90,3 +90,65 @@
 .MMM-Cookidoo .text-container-inner {
   white-space: nowrap;
 }
+/* Modal container covers entire viewport and centers its content */
+.view-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  pointer-events: none;
+}
+
+/* Modal content container with max dimensions and responsive width */
+.view-modal-content {
+  background-color: #fefefe;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90%;
+  border: 1px solid #888;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Inner content area that scrolls if content is too tall */
+.view-modal-inner-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+/* Close button styling */
+.view-modal-close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.view-modal-close:hover,
+.view-modal-close:focus {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Ensure that images and videos inside the modal fit the container */
+.view-modal-inner-content img,
+.view-modal-inner-content video {
+  max-width: 100%;
+  height: auto;
+}

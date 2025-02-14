@@ -1,40 +1,83 @@
 Module.register("MMM-Cookidoo", {
-
   // Default module configuration.
   defaults: {
     updateInterval: 60 * 60 * 1000,  // Update recipes every 1 hour.
-    rotateInterval: 5 * 60 * 1000,   // Rotate displayed recipe every 5 Minutes.
+    rotateInterval: 10 * 1000,        // Rotate displayed recipe every 10 seconds.
     apiURL: "https://www.rezeptwelt.de/rezepte/rezeptedestages/liste",
-    imageWidth: "250px",              // Recipe image width (e.g., "250px" or "100%")
-    showRecipeLink: true,            // true to show "View Recipe" link, false to hide
-    showCookidoo: true,              // true to show the Cookidoo container, false to hide
-    showRating: true,                // true to show the rating with stars, false to hide
-    moduleWidth: "400px",            // Module width (applied to outer wrapper)
+    imageWidth: "100%",
+    showRecipeLink: true,
+    showCookidoo: true,
+    showRating: true,
+    moduleWidth: "600px",
   },
 
-  // Load Iconify for the star icons.
   getScripts: function() {
     return ["https://code.iconify.design/2/2.0.4/iconify.min.js"];
   },
 
   notificationReceived: function (notification, payload, sender) {
-    if (notification === "Cookidoo_view") {
-      // Suche den Link mit der Klasse "recipe-link" und simuliere einen Klick.
-      const viewLink = document.querySelector(".recipe-link");
-      if (viewLink) {
-        viewLink.click();
-      } else {
-        Log.error("View Recipe Link nicht gefunden.");
-      }
-    } else if (notification === "Cookidoo_add") {
-      // Suche den Link innerhalb des Cookidoo Containers und simuliere einen Klick.
-      const addLink = document.querySelector(".cookidoo-link");
-      if (addLink) {
-        addLink.click();
-      } else {
-        Log.error("Cookidoo Add Link nicht gefunden.");
-      }
+  if (notification === "Cookidoo_view") {
+    const viewLink = document.querySelector(".recipe-link");
+    if (viewLink) {
+      this.sendSocketNotification("GET_RECIPE_CONTENT", viewLink.href);
+    } else {
+      Log.error("View Recipe Link not found.");
     }
+  } else if (notification === "Cookidoo_add") {
+    const addLink = document.querySelector(".cookidoo-link");
+    if (addLink) {
+      addLink.click();
+    } else {
+      Log.error("Cookidoo Add Link not found.");
+    }
+  } else if (notification === "Cookidoo_view_close") {
+    // Close the modal if it exists.
+    const modal = document.getElementById("view-modal");
+    if (modal) {
+      modal.remove();
+    }
+  }
+},
+
+
+  socketNotificationReceived: function(notification, payload) {
+    if (notification === "RECIPES_RESULT") {
+      this.recipes = payload;
+      this.currentIndex = 0;
+      this.updateDom();
+    } else if (notification === "RECIPE_CONTENT_RESULT") {
+      // Display the fetched HTML content in a modal.
+      this.showViewModal(payload);
+    }
+  },
+
+  showViewModal: function(content) {
+    if (document.getElementById("view-modal")) {
+      return;
+    }
+
+    const modal = document.createElement("div");
+    modal.id = "view-modal";
+    modal.className = "view-modal";
+
+    const modalContent = document.createElement("div");
+    modalContent.className = "view-modal-content";
+
+    const closeButton = document.createElement("span");
+    closeButton.className = "view-modal-close";
+    closeButton.innerHTML = "&times;";
+    closeButton.onclick = function() {
+      modal.remove();
+    };
+
+    const contentContainer = document.createElement("div");
+    contentContainer.className = "view-modal-inner-content";
+    contentContainer.innerHTML = content;
+
+    modalContent.appendChild(closeButton);
+    modalContent.appendChild(contentContainer);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
   },
 
   start: function() {
@@ -42,15 +85,12 @@ Module.register("MMM-Cookidoo", {
     this.recipes = [];
     this.currentIndex = 0;
 
-    // Request recipes from the node helper.
     this.sendSocketNotification("GET_RECIPES", this.config.apiURL);
 
-    // Refresh recipes periodically.
     setInterval(() => {
       this.sendSocketNotification("GET_RECIPES", this.config.apiURL);
     }, this.config.updateInterval);
 
-    // Rotate the displayed recipe.
     setInterval(() => {
       this.rotateRecipe();
     }, this.config.rotateInterval);
@@ -63,25 +103,14 @@ Module.register("MMM-Cookidoo", {
     }
   },
 
-  socketNotificationReceived: function(notification, payload) {
-    if (notification === "RECIPES_RESULT") {
-      this.recipes = payload;
-      this.currentIndex = 0;
-      this.updateDom();
-    }
-  },
-
-  // Load the module's CSS file.
   getStyles: function() {
     return ["MMM-Cookidoo.css"];
   },
 
-  // Build the DOM to display a recipe.
   getDom: function() {
     const wrapper = document.createElement("div");
     wrapper.className = "MMM-Cookidoo";
-    
-    // Apply module dimensions from config.
+
     if (this.config.moduleWidth) {
       wrapper.style.width = this.config.moduleWidth;
     }
@@ -90,16 +119,14 @@ Module.register("MMM-Cookidoo", {
       wrapper.innerHTML = "Loading recipes...";
       return wrapper;
     }
-  
+
     const recipe = this.recipes[this.currentIndex];
 
-    // Headline
     const headline = document.createElement("div");
     headline.className = "recipe-headline";
     headline.innerHTML = recipe.title;
     wrapper.appendChild(headline);
 
-    // Recipe image.
     if (recipe.image) {
       const img = document.createElement("img");
       img.src = recipe.image;
@@ -110,7 +137,6 @@ Module.register("MMM-Cookidoo", {
       wrapper.appendChild(img);
     }
 
-    // Rating container.
     if (this.config.showRating) {
       const ratingContainer = document.createElement("div");
       ratingContainer.className = "rating-container";
@@ -130,7 +156,7 @@ Module.register("MMM-Cookidoo", {
       wrapper.appendChild(ratingContainer);
     }
 
-    // Recipe link.
+    // "View Recipe" link that will trigger the modal.
     let recipeLink = recipe.link;
     if (recipeLink && recipeLink.startsWith("/")) {
       recipeLink = "https://www.rezeptwelt.de" + recipeLink;
@@ -139,29 +165,35 @@ Module.register("MMM-Cookidoo", {
       const link = document.createElement("a");
       link.className = "recipe-link";
       link.href = recipeLink;
-      link.target = "_blank";
       link.innerHTML = "View Recipe";
+      // Prevent default navigation.
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        this.sendSocketNotification("GET_RECIPE_CONTENT", recipeLink);
+      });
       wrapper.appendChild(link);
-   
     }
 
-    // Cookidoo container.
+    // Cookidoo container (opens normally).
     if (this.config.showCookidoo) {
       const cookidooContainer = document.createElement("div");
       cookidooContainer.className = "cookidoo-container";
-      cookidooContainer.innerHTML = `
-        <a target="_blank" href="https://cookidoo.de/created-recipes/de-DE/add-to-cookidoo?partnerId=rezeptwelt-b20807&amp;recipeUrl=${encodeURIComponent(recipeLink)}" class="cookidoo-link">
-          <img src="https://assets.cookidoo.io/a2c/assets/logo_tm_white.svg" class="logo" alt="TM6 logo">
-          <div class="text-container-simple-widget">
-            <div class="text-container-inner">
-              <span class="main-text-block">Zu&nbsp;Cookidoo<span class="registered-sign">®</span></span>
-              <span class="suffix text-addition">hinzufügen</span>
-            </div>
-          </div>
-        </a>
-      `;
-      wrapper.appendChild(cookidooContainer);
       
+      const cookidooLink = document.createElement("a");
+      cookidooLink.className = "cookidoo-link";
+      cookidooLink.href = "https://cookidoo.de/created-recipes/de-DE/add-to-cookidoo?partnerId=rezeptwelt-b20807&recipeUrl=" + encodeURIComponent(recipeLink);
+      cookidooLink.target = "_blank";
+      cookidooLink.innerHTML = `
+        <img src="https://assets.cookidoo.io/a2c/assets/logo_tm_white.svg" class="logo" alt="TM6 logo">
+        <div class="text-container-simple-widget">
+          <div class="text-container-inner">
+            <span class="main-text-block">Zu&nbsp;Cookidoo<span class="registered-sign">®</span></span>
+            <span class="suffix text-addition">hinzufügen</span>
+          </div>
+        </div>
+      `;
+      cookidooContainer.appendChild(cookidooLink);
+      wrapper.appendChild(cookidooContainer);
     }
 
     if (window.Iconify) {
