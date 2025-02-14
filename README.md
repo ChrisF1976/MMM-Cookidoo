@@ -11,7 +11,7 @@ MMM-Cookidoo is a MagicMirror² module that fetches and displays random recipes 
 - **Periodic Updates:** Refreshes the recipe list every hour.
 - **Display Elements:** Shows the recipe title, image, and rating (with star icons via Iconify).
 - **Interactive Links:** Provides a "View Recipe" link and a "Zu Cookidoo hinzufügen" link.
-- **Notification Handling:** Listens for `Cookidoo_view` and `Cookidoo_add` notifications to simulate virtual clicks on the respective links.
+- **Notification Handling:** Listens for `Cookidoo_view`, `Cookidoo_view_close` and `Cookidoo_add` notifications to simulate virtual clicks on the respective links.
 
 ## Installation
 
@@ -53,11 +53,14 @@ To configure the module, add it to your MagicMirror `config/config.js` file:
 
 ## Interactive Notifications:
 The module listens for the following notifications:
-- Cookidoo_view: Simulates a click on the "View Recipe" link.
-- Cookidoo_add: Simulates a click on the Cookidoo container link.
+- `Cookidoo_view`: Simulates a click on the "View Recipe" link and opens it as a seperate window overlay.
+- `Cookidoo_view_close`: Close the window overlay again.
+- `Cookidoo_add`: Simulates a click on the Cookidoo container link.
 To trigger these notifications from another module or custom script, use:
 ```
 this.sendNotification("Cookidoo_view");
+// or
+this.sendNotification("Cookidoo_view_close");
 // or
 this.sendNotification("Cookidoo_add");
 ```
