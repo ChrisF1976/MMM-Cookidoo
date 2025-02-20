@@ -12,7 +12,7 @@ MMM-Cookidoo is a MagicMirror² module that fetches and displays random recipes 
 - **Display Elements:** Shows the recipe title, image, and rating (with star icons via Iconify).
 - **Interactive Links:** Provides a "View Recipe" link and a "Zu Cookidoo hinzufügen" link.
 - **Add to Cookidoo QR-Code:** The Cookidoo link is now wrapped together with an inline QR code in the module's main view.
-- **Store Cookidoo Link:** The cookidoo link is stored in `~/MagicMirror/modules/MMM-Cookidoo/cookidoo.link`.
+- **Store Cookidoo Link:** The cookidoo link is stored in `~/MagicMirror/modules/MMM-Cookidoo/cookidoo.link` on each DOM update.
 - **Notification Handling:** Listens for `Cookidoo_view`, `Cookidoo_view_close` and `Cookidoo_add` notifications to simulate virtual clicks on the respective links.
 
 ## Installation
@@ -74,8 +74,9 @@ this.sendNotification("Cookidoo_view_close");
 // or
 this.sendNotification("Cookidoo_add");
 ```
-### Use a shortcut to the link
-The cookidoo link is stored in `~/MagicMirror/modules/MMM-Cookidoo/cookidoo.link` after the `Cookidoo_add` notification or a manual click on the link. You can create a shortcut on your mobile device. 
+## Use a shortcut to the cookidoo-link
+The cookidoo link is stored in `~/MagicMirror/modules/MMM-Cookidoo/cookidoo.link`. Now you can also create a shortcut on your mobile device to get the cookidoo link.
+**This solution work with Apple devices. I dont know if Android supports that, too.**
 1. Open the Shortcuts App
    Open the Shortcuts app on your iPhone or iPad.
 2. Create a New Shortcut
