@@ -12,7 +12,7 @@ MMM-Cookidoo is a MagicMirror² module that fetches and displays random recipes 
 - **Display Elements:** Shows the recipe title, image, and rating (with star icons via Iconify).
 - **Interactive Links:** Provides a "View Recipe" link and a "Zu Cookidoo hinzufügen" link.
 - **Add to Cookidoo QR-Code:** The Cookidoo link is now wrapped together with an inline QR code in the module's main view.
-- **Store Cookidoo Link:** The cookidoo link is stored in `~/MagicMirror/modules/MMM-Cookidoo/cookidoo.link` on each DOM update.
+- **Store Cookidoo Link:** The cookidoo link is stored in `~/MagicMirror/modules/MMM-Cookidoo/cookidoo.link` on each DOM update. Used to get the link without any external module (solution works at least for Apple devices)!
 - **Notification Handling:** Listens for `Cookidoo_view`, `Cookidoo_view_close` and `Cookidoo_add` notifications to simulate virtual clicks on the respective links.
 
 ## Installation
