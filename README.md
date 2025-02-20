@@ -76,7 +76,7 @@ this.sendNotification("Cookidoo_add");
 ```
 ## Use a shortcut to the cookidoo-link
 The cookidoo link is stored in `~/MagicMirror/modules/MMM-Cookidoo/cookidoo.link`. Now you can also create a shortcut on your mobile device to get the cookidoo link.
-**This solution work with Apple devices. I dont know if Android supports that, too.**
+   **This solution works with Apple devices. I dont know if Android supports that, too.**
 1. Open the Shortcuts App
    Open the Shortcuts app on your iPhone or iPad.
 2. Create a New Shortcut
