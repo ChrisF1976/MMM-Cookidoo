@@ -1,0 +1,41 @@
+{
+      "id": "cookidoo-submenu",
+      "type": "menu",
+      "icon": "cutlery",
+      "text": "Cookidoo",
+      "items": [
+        {
+          "id": "cookidoo-view",
+          "type": "item",
+          "icon": "eye",
+          "text": "View Recipe",
+          "action": "NOTIFICATION",
+          "content": {
+            "notification": "Cookidoo_view",
+            "payload": ""
+          }
+        },
+        {
+          "id": "cookidoo-add",
+          "type": "item",
+          "icon": "plus",
+          "text": "Add to Cookidoo",
+          "action": "NOTIFICATION",
+          "content": {
+            "notification": "Cookidoo_add",
+            "payload": ""
+          }
+        },
+        {
+          "id": "cookidoo-close",
+          "type": "item",
+          "icon": "times",
+          "text": "Close Recipe View",
+          "action": "NOTIFICATION",
+          "content": {
+            "notification": "Cookidoo_view_close",
+            "payload": ""
+          }
+        }
+      ]
+    },
