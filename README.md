@@ -4,6 +4,17 @@ MMM-Cookidoo is a MagicMirror² module that fetches and displays random recipes 
 
 ![MMM-Cook](./MMM-Cookidoo.png)
 
+## Today's Modifications
+ - added QR codes for Cookidoo link
+ - Inline QR Code Display and QR Code Modal Pop-Up
+
+Users have three ways to access the Cookidoo link:
+  1. **Clickable link** – opens in a new tab.
+  2. **Inline QR code** – visible next to the link (size controlled by `qrSize`).
+  3. **Modal QR code** – a larger QR code pops up automatically for scanning on mobile devices.
+
+And finally the link is stored in the module folder to use shortcut on the smartphone to open the link and add it to your recipe library.
+
 ## Features
 
 - **Recipe Fetching:** Scrapes recipes from rezeptwelt.de using Axios and Cheerio.
