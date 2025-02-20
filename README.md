@@ -74,7 +74,26 @@ this.sendNotification("Cookidoo_view_close");
 // or
 this.sendNotification("Cookidoo_add");
 ```
-
+### Use a shortcut to the link
+The cookidoo link is stored in `~/MagicMirror/modules/MMM-Cookidoo/cookidoo.link` after the `Cookidoo_add` notification or a manual click on the link. You can create a shortcut on your mobile device. 
+1. Open the Shortcuts App
+   Open the Shortcuts app on your iPhone or iPad.
+2. Create a New Shortcut
+   Tap the “+” button to create a new shortcut.
+   Tap “Add Action.”
+3. Add the “Run Script Over SSH” Action
+   In the search bar at the bottom, type “SSH” and select Run Script Over SSH.
+   In the Run Script Over SSH action, configure the following fields:
+   Host: Enter your MagicMirror’s IP address (for example, 192.168.1.100).
+   User: Enter the username used to log into your mirror (e.g., pi if you're using a Raspberry Pi).
+   Port: Leave it at the default (usually 22) unless your mirror uses a different port.
+   Password/Key: Choose the appropriate authentication method (enter your password or select your private key if you use key-based authentication).
+   In the Script field, enter the command to output the file’s contents. For example:
+   `cat ~/MagicMirror/modules/MMM-Cookidoo/cookidoo.link`
+   Note: Adjust the file path if your MagicMirror installation is in a different location.
+4. Add the get URL
+5. Add open URL
+6. Run the shortcut.
 
 ## Files
 
