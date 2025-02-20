@@ -1,6 +1,8 @@
 const NodeHelper = require("node_helper");
 const axios = require("axios");
 const cheerio = require("cheerio");
+const fs = require("fs");
+const path = require("path");
 
 module.exports = NodeHelper.create({
   start: function() {
@@ -8,10 +10,13 @@ module.exports = NodeHelper.create({
   },
 
   socketNotificationReceived: function(notification, payload) {
+    console.log("NodeHelper received socket notification:", notification, payload);
     if (notification === "GET_RECIPES") {
       this.fetchRecipes(payload);
     } else if (notification === "GET_RECIPE_CONTENT") {
       this.fetchRecipeContent(payload);
+    } else if (notification === "SAVE_COOKIDOO_LINK") {
+      this.saveCookidooLink(payload);
     }
   },
 
@@ -23,7 +28,6 @@ module.exports = NodeHelper.create({
         const $ = cheerio.load(html);
         const recipes = [];
 
-        // Example: Loop through recipe containers.
         $("div.bg-body-secondary").each((i, elem) => {
           const $elem = $(elem);
           const title = $elem.find("a.fw-bold.recipe-link").text().trim();
@@ -59,30 +63,38 @@ module.exports = NodeHelper.create({
   },
 
   fetchRecipeContent: function(url) {
-  var self = this;
-  axios.get(url)
-    .then(response => {
-      const html = response.data;
-      const $ = cheerio.load(html);
-      
-      // Remove unwanted elements
-      $('div.d-lg-none, div.accessories.pt-5, div.col.position-relative, div.appliances-list.flex-column.d-flex.gap-3, div.recipe-cooking-today.bg-primary-subtle.py-5.d-flex.flex-column.align-items-center.gap-4').remove();
-      
-      // Adjust the selector to extract the main recipe content.
-      // Change ".recipe-content" to the appropriate container if needed.
-      let content = $(".recipe-content").html();
-      
-      // Fallback to entire body if the specific container is not found.
-      if (!content) {
-        content = $("body").html();
-      }
-      
-      self.sendSocketNotification("RECIPE_CONTENT_RESULT", content);
-    })
-    .catch(error => {
-      console.error("Error fetching recipe content:", error);
-      self.sendSocketNotification("RECIPE_CONTENT_RESULT", "<p>Error fetching content.</p>");
-    });
-}
+    var self = this;
+    axios.get(url)
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        
+        // Remove unwanted elements
+        $('div.d-lg-none, div.accessories.pt-5, div.col.position-relative, div.appliances-list.flex-column.d-flex.gap-3, div.recipe-cooking-today.bg-primary-subtle.py-5.d-flex.flex-column.align-items-center.gap-4').remove();
+        
+        let content = $(".recipe-content").html();
+        if (!content) {
+          content = $("body").html();
+        }
+        
+        self.sendSocketNotification("RECIPE_CONTENT_RESULT", content);
+      })
+      .catch(error => {
+        console.error("Error fetching recipe content:", error);
+        self.sendSocketNotification("RECIPE_CONTENT_RESULT", "<p>Error fetching content.</p>");
+      });
+  },
 
+  // Save the Cookidoo link to a file named "cookidoo.link" in the MMM-Cookidoo folder.
+  saveCookidooLink: function(link) {
+    const filePath = path.join(__dirname, "cookidoo.link");
+    console.log("Saving Cookidoo link to:", filePath);
+    fs.writeFile(filePath, link, (err) => {
+      if (err) {
+        console.error("Error saving Cookidoo link:", err);
+      } else {
+        console.log("Cookidoo link successfully saved to", filePath);
+      }
+    });
+  }
 });
