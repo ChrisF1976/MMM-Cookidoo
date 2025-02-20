@@ -49,7 +49,7 @@ To configure the module, add it to your MagicMirror `config/config.js` file:
     showRating: true,               // Display the rating with stars
     moduleWidth: "400px",           // Module width (applied to outer wrapper)
     showQR: true,                   // If true, display an inline QR-code next to the Cookidoo link.
-    qrSize: "50x50"                 // Size for the inline QR-code (e.g., "100x100")
+    qrSize: "50x50"                 // Size for the inline QR-code (e.g., "50x50"). Try with your smartphone.
   }
 },
 ```
