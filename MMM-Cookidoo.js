@@ -8,9 +8,9 @@ Module.register("MMM-Cookidoo", {
     showRecipeLink: true,
     showCookidoo: true,
     showRating: true,
-    moduleWidth: "600px",
+    moduleWidth: "400px",
     showQR: true,            // If true, display an inline QR-code next to the Cookidoo link.
-    qrSize: "50x50"         // Size for the inline QR-code (e.g., "100x100")
+    qrSize: "50x50"         // Size for the inline QR-code (e.g., "50x50")
   },
 
   getScripts: function() {
