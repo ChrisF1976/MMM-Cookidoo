@@ -227,12 +227,10 @@ Module.register("MMM-Cookidoo", {
           </div>
         </div>
       `;
-      // Attach a click listener to save the link on manual click.
-      cookidooLink.addEventListener("click", (e) => {
-        console.log("Manual Cookidoo link click. Saving link.");
-        this.sendSocketNotification("SAVE_COOKIDOO_LINK", cookidooLink.href);
-      });
-      linkWrapper.appendChild(cookidooLink);
+     
+    // Save the link automatically on each DOM update.
+    this.sendSocketNotification("SAVE_COOKIDOO_LINK", cookidooLink.href);
+    linkWrapper.appendChild(cookidooLink);
       
       // If enabled, add the inline QR code.
       if (this.config.showQR) {
