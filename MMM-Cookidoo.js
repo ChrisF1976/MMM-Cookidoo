@@ -210,7 +210,7 @@ Module.register("MMM-Cookidoo", {
       // Create a wrapper for both the cookidoo link and the inline QR.
       const linkWrapper = document.createElement("div");
       linkWrapper.style.display = "flex";
-      linkWrapper.style.alignItems = "center";
+      linkWrapper.style.alignItems = "baseline";
       linkWrapper.style.justifyContent = "center";
       
       const cookidooLink = document.createElement("a");
