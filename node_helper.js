@@ -10,7 +10,7 @@ module.exports = NodeHelper.create({
   },
 
   socketNotificationReceived: function(notification, payload) {
-    console.log("NodeHelper received socket notification:", notification, payload);
+//    console.log("NodeHelper received socket notification:", notification, payload);
     if (notification === "GET_RECIPES") {
       this.fetchRecipes(payload);
     } else if (notification === "GET_RECIPE_CONTENT") {
@@ -53,7 +53,7 @@ module.exports = NodeHelper.create({
           }
         });
 
-        console.log("Recipes found:", recipes.length);
+//        console.log("Recipes found:", recipes.length);
         self.sendSocketNotification("RECIPES_RESULT", recipes);
       })
       .catch(error => {
@@ -88,13 +88,14 @@ module.exports = NodeHelper.create({
   // Save the Cookidoo link to a file named "cookidoo.link" in the MMM-Cookidoo folder.
   saveCookidooLink: function(link) {
     const filePath = path.join(__dirname, "cookidoo.link");
-    console.log("Saving Cookidoo link to:", filePath);
+//    console.log("Saving Cookidoo link to:", filePath);
     fs.writeFile(filePath, link, (err) => {
       if (err) {
         console.error("Error saving Cookidoo link:", err);
-      } else {
-        console.log("Cookidoo link successfully saved to", filePath);
-      }
+      } 
+//      else {
+//        console.log("Cookidoo link successfully saved to", filePath);
+//      }
     });
   }
 });
