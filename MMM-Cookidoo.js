@@ -28,7 +28,7 @@ Module.register("MMM-Cookidoo", {
     } else if (notification === "Cookidoo_add") {
       const addLink = document.querySelector(".cookidoo-link");
       if (addLink) {
-        console.log("Cookidoo link: " + addLink.href);
+//        console.log("Cookidoo link: " + addLink.href);
         // Open the link in a new tab.
         window.open(addLink.href, '_blank');
         // Save the link via the node helper.
