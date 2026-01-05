@@ -43,6 +43,14 @@ And finally the link is stored in the module folder to use shortcut on the smart
 cd MMM-Cookidoo
 npm install
 ```
+## Update
+
+   ```
+   cd ~/MagicMirror/modules/MMM-Cookidoo
+   git pull
+   npm ci
+   ```
+
 
 ## Configuration
 
