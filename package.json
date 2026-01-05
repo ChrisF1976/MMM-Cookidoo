@@ -7,7 +7,6 @@
     "start": "node MMM-Cookidoo.js"
   },
   "dependencies": {
-    "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12"
   },
   "author": "ChrisF1976",
