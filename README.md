@@ -34,7 +34,7 @@ And finally the link is stored in the module folder to use shortcut on the smart
 
    ```
    cd ~/MagicMirror/modules
-   git clone https://github.com/yourusername/MMM-Cookidoo.git
+   git clone https://github.com/ChrisF1976/MMM-Cookidoo.git
    ```
 
 2. **Install Dependencies:**
